@@ -1,8 +1,15 @@
 namespace DM_project;
 
 public abstract class GraphFunctions
+// Клас для збереження функцій  !!!Не структура даних!!!
+// Якщо писати реальний клас для графів (що може і не знадобиться) - краще в іншому файлі
 {
     public static int[,] GraphGenerator(int vertices, int density)
+    // Створює матрицю рандомного неорієнтованого графа, який має реально можливі відстані
+    // (відстань напряму завжди <= відстані через іншу точку)
+    
+    // vertices - скільки у графа буде вершин
+    // density - щільність; приблизно який відсоток ребер з можливих буде побудовано
     {
         var graphMatrix = new int[vertices, vertices];
         var random = new Random();
@@ -27,7 +34,8 @@ public abstract class GraphFunctions
                 {
                     if (i == 0)
                     {
-                        graphMatrix[i, q] = random.Next(0, 100);
+                        graphMatrix[i, q] = random.Next(1, 100);
+                        // (1, 100) - діапазон можливих відстаней між ребрами. Можна змінювати, тільки не на від'ємні
                         continue;
                     }
                     
@@ -56,6 +64,9 @@ public abstract class GraphFunctions
     }
 
     public static int[,] ToMatrixForm(Dictionary<int, Dictionary<int, int>> listGraph)
+    // Приймає список суміжності графа; видає його матрицю
+    // Список суміжності представлено двома вкладеними словниками; перший - вершина: їй суміжні,
+    //                                                             другий - суміжна вершина: відстань до неї
     {
         var verticesAmount = listGraph.Keys.Count;
         var graphMatrix = new int[verticesAmount, verticesAmount];
@@ -86,6 +97,8 @@ public abstract class GraphFunctions
     }
 
     public static Dictionary<int, Dictionary<int, int>> ToListForm(int[,] matrixGraph)
+    // Приймає матрицю графа; видає його список суміжності
+    // Список суміжності представлено аналогічно
     {
         var verticesAmount = matrixGraph.GetLength(0);
         var graph = new Dictionary<int, Dictionary<int, int>>();
