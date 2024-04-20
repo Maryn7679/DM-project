@@ -25,7 +25,25 @@ public abstract class Graph
                 var edgeProbability = random.Next(100);
                 if (edgeProbability < density)
                 {
-                    graphMatrix[i, q] = random.Next(1, 100);
+                    if (i == 0)
+                    {
+                        graphMatrix[i, q] = random.Next(0, 100);
+                        continue;
+                    }
+                    
+                    var maxValue = graphMatrix[i, 0] + graphMatrix[0, q];
+                    var minValue = Math.Abs(graphMatrix[i, 0] - graphMatrix[0, q]);
+
+                    for (var k = 1; k < i; k++)
+                    {
+                        if (graphMatrix[i, k] != 0 && graphMatrix[k, q] != 0)
+                        {
+                            maxValue = int.Min(graphMatrix[i, k] + graphMatrix[k, q], maxValue);
+                            minValue = int.Max(Math.Abs(graphMatrix[i, k] - graphMatrix[k, q]), minValue);
+                        }
+                    }
+                    
+                    graphMatrix[i, q] = random.Next(minValue, maxValue);
                 }
                 else
                 {

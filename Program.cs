@@ -4,7 +4,7 @@ internal static class Program
 {
     public static void Main()
     {
-        var randomGraph = Graph.GraphGenerator(5, 50);
+        var randomGraph = Graph.GraphGenerator(5, 90);
         PrintGraph(randomGraph);
         Console.WriteLine();
         var graph1 = Graph.ToExplicitForm(randomGraph);
