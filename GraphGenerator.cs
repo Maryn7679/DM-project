@@ -4,7 +4,7 @@ public abstract class Graph
 {
     public static int[,] GraphGenerator(int vertices, int density)
     {
-        var graph = new int[vertices, vertices];
+        var graphMatrix = new int[vertices, vertices];
         var random = new Random();
         for (var i = 0; i < vertices; i++)
         {
@@ -12,29 +12,59 @@ public abstract class Graph
             {
                 if (i == q)
                 {
-                    graph[i, q] = 0;
+                    graphMatrix[i, q] = 0;
                     continue;
                 }
 
                 if (i > q)
                 {
-                    graph[i, q] = graph[q, i];
+                    graphMatrix[i, q] = graphMatrix[q, i];
                     continue;
                 }
 
                 var edgeProbability = random.Next(100);
                 if (edgeProbability < density)
                 {
-                    graph[i, q] = random.Next(1, 100);
+                    graphMatrix[i, q] = random.Next(1, 100);
                 }
                 else
                 {
-                    graph[i, q] = 0;
+                    graphMatrix[i, q] = 0;
                 }
             }
         }
 
-        return graph;
+        return graphMatrix;
+    }
+
+    public static int[,] ToMatrixForm((int, Dictionary<(int, int), int>) explicitGraph)
+    {
+        var verticesAmount = explicitGraph.Item1;
+        var graphMatrix = new int[verticesAmount, verticesAmount];
+        for (var i = 0; i < verticesAmount; i++)
+        {
+            for (var q = 0; q < verticesAmount; q++)
+            {
+                if (i == q)
+                {
+                    graphMatrix[i, q] = 0;
+                    continue;
+                }
+
+                if (i > q)
+                {
+                    graphMatrix[i, q] = graphMatrix[q, i];
+                    continue;
+                }
+                
+                if (explicitGraph.Item2.ContainsKey((i, q)))
+                {
+                    graphMatrix[i, q] = explicitGraph.Item2[(i, q)];
+                }
+            }
+        }
+
+        return graphMatrix;
     }
 
     public static (int, Dictionary<(int, int), int>) ToExplicitForm(int[,] matrixGraph)
