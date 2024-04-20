@@ -4,11 +4,11 @@ internal static class Program
 {
     public static void Main()
     {
-        var randomGraph = Graph.GraphGenerator(5, 90);
+        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
         PrintGraph(randomGraph);
         Console.WriteLine();
-        var graph1 = Graph.ToExplicitForm(randomGraph);
-        var graph2 = Graph.ToMatrixForm(graph1);
+        var graph1 = GraphFunctions.ToListForm(randomGraph);
+        var graph2 = GraphFunctions.ToMatrixForm(graph1);
         PrintGraph(graph2);
     }
 

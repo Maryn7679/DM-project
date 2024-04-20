@@ -1,6 +1,6 @@
 namespace DM_project;
 
-public abstract class Graph
+public abstract class GraphFunctions
 {
     public static int[,] GraphGenerator(int vertices, int density)
     {
@@ -55,9 +55,9 @@ public abstract class Graph
         return graphMatrix;
     }
 
-    public static int[,] ToMatrixForm((int, Dictionary<(int, int), int>) explicitGraph)
+    public static int[,] ToMatrixForm(Dictionary<int, Dictionary<int, int>> listGraph)
     {
-        var verticesAmount = explicitGraph.Item1;
+        var verticesAmount = listGraph.Keys.Count;
         var graphMatrix = new int[verticesAmount, verticesAmount];
         for (var i = 0; i < verticesAmount; i++)
         {
@@ -75,9 +75,9 @@ public abstract class Graph
                     continue;
                 }
                 
-                if (explicitGraph.Item2.ContainsKey((i, q)))
+                if (listGraph[i].Keys.Contains(q))
                 {
-                    graphMatrix[i, q] = explicitGraph.Item2[(i, q)];
+                    graphMatrix[i, q] = listGraph[i][q];
                 }
             }
         }
@@ -85,22 +85,25 @@ public abstract class Graph
         return graphMatrix;
     }
 
-    public static (int, Dictionary<(int, int), int>) ToExplicitForm(int[,] matrixGraph)
+    public static Dictionary<int, Dictionary<int, int>> ToListForm(int[,] matrixGraph)
     {
         var verticesAmount = matrixGraph.GetLength(0);
-        var edges = new Dictionary<(int, int), int>();
+        var graph = new Dictionary<int, Dictionary<int, int>>();
 
         for (var i = 0; i < verticesAmount; i++)
         {
-            for (var q = i + 1; q < verticesAmount; q++)
+            var edges = new Dictionary<int, int>();
+            for (var q = 0; q < verticesAmount; q++)
             {
                 if (matrixGraph[i, q] != 0)
                 {
-                    edges[(i, q)] = matrixGraph[i, q];
+                    edges[q] = matrixGraph[i, q];
                 }
             }
+
+            graph[i] = edges;
         }
 
-        return (verticesAmount, edges);
+        return graph;
     }
 }
