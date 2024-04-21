@@ -1,9 +1,5 @@
 ﻿//Kruskal
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 public class Edge : IComparable<Edge>
 {
     public int Source { get; }

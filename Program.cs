@@ -4,9 +4,13 @@ internal static class Program
 {
     public static void Main()
     {
-        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
+        var randomGraph = GraphFunctions.GraphGenerator(10, 15);
+        var randomGraph2 = GraphFunctions.GraphGenerator(10, 20);
         var adjacencyList = GraphFunctions.ToListForm(randomGraph);
+        var adjacencyList2 = GraphFunctions.ToListForm(randomGraph2);
+        var newgraph = GraphFunctions.AddGraphs(adjacencyList, adjacencyList2);
         
+
         KruskalAlgorithm kruskal = new KruskalAlgorithm(5);
         
         foreach (var kvp in adjacencyList)
