@@ -150,10 +150,10 @@ public class PerfectMatching
             }
         }*/
 
-        foreach (var key in listSubgraph.Keys)
+        /*foreach (var key in listSubgraph.Keys)
         {
             Console.WriteLine($"{key}");
-        }
+        }*/
         return listSubgraph;
     }
     

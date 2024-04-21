@@ -4,45 +4,54 @@ internal class Program
 {
     public static void Main()
     {
-        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
+        var vertices = 400;
+        
+        var randomGraph = GraphFunctions.GraphGenerator(vertices, 100);
+        
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+// the code that you want to measure comes here
+        
         var adjacencyList = GraphFunctions.ToListForm(randomGraph);
-        var graph = new Graph(5);
+        var graph = new Graph(vertices);
         
         //KruskalAlgorithm kruskal = new KruskalAlgorithm(5);
         
         foreach (var kvp in adjacencyList)
         {
             int vertex = kvp.Key; // ершина
-            Console.Write($"Vertex {vertex}: ");
+            //Console.Write($"Vertex {vertex}: ");
             foreach (var neighbor in kvp.Value)
             {
                 int adjacentVertex = neighbor.Key; // сусідня
                 int weightOfEdge = neighbor.Value; // вага
-                Console.Write($"({adjacentVertex}, {weightOfEdge}) ");
+                //Console.Write($"({adjacentVertex}, {weightOfEdge}) ");
                 graph.AddEdge(vertex, adjacentVertex, weightOfEdge);
             }
-            Console.WriteLine();
+            //Console.WriteLine();
             
         }
         List<Edge> minimalSpanningTree = ChristofidesAlgorithm.FindMinimalSpanningTree(graph);
 
-        Console.WriteLine("Minimal Spanning Tree:");
+        /*Console.WriteLine("Minimal Spanning Tree:");
         foreach (var edge in minimalSpanningTree)
         {
             Console.WriteLine($"{edge.Source} -- {edge.Destination} : {edge.Weight}");
-        }
+        }*/
 
         var perfectMatching = ChristofidesAlgorithm.GetPerfectMatching(minimalSpanningTree, graph);
-        foreach (var i in perfectMatching.Keys)
+        /*foreach (var i in perfectMatching.Keys)
         {
             Console.WriteLine($"{i}: {perfectMatching[i]}");
-        }
+        }*/
 
         var listTree = GraphFunctions.ToListForm(minimalSpanningTree);
         var listMatching = GraphFunctions.ToListForm(perfectMatching);
         var graphSum = ChristofidesAlgorithm.AddGraphs(listTree, listMatching);
         
-        PrintListGraph(graphSum);
+        //PrintListGraph(graphSum);
+        watch.Stop();
+        var elapsedMs = watch.ElapsedMilliseconds;
+        Console.WriteLine($"time: {elapsedMs}");
         
         // Перевірка, що функції працюють. Потім видалимо :)
         //
