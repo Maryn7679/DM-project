@@ -159,7 +159,26 @@ public abstract class GraphFunctions
 
         return newGraph;
     }
+
+    public static Dictionary<int, Dictionary<int, int>> ToListForm(List<Edge> edgeGraph)
+    {
+        var listGraph = new Dictionary<int, Dictionary<int, int>>();
+        
+        foreach (var edge in edgeGraph)
+        {
+            if (!listGraph.ContainsKey(edge.Source))
+            {
+                listGraph[edge.Source] = new Dictionary<int, int>();
+            }
+            if (!listGraph.ContainsKey(edge.Destination))
+            {
+                listGraph[edge.Destination] = new Dictionary<int, int>();
+            }
+
+            listGraph[edge.Source][edge.Destination] = edge.Weight;
+            listGraph[edge.Destination][edge.Source] = edge.Weight;
+        }
+
+        return listGraph;
+    }
 }
-    
-    
-    

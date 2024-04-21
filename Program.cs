@@ -1,18 +1,14 @@
 ﻿namespace DM_project;
-
 internal static class Program
 {
     public static void Main()
     {
-        var randomGraph = GraphFunctions.GraphGenerator(10, 15);
-        var randomGraph2 = GraphFunctions.GraphGenerator(10, 20);
+        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
         var adjacencyList = GraphFunctions.ToListForm(randomGraph);
-        var adjacencyList2 = GraphFunctions.ToListForm(randomGraph2);
-        var newgraph = GraphFunctions.AddGraphs(adjacencyList, adjacencyList2);
-        
+        var graph = new Graph(5);
 
         KruskalAlgorithm kruskal = new KruskalAlgorithm(5);
-        
+
         foreach (var kvp in adjacencyList)
         {
             int vertex = kvp.Key; // ершина
@@ -23,29 +19,29 @@ internal static class Program
                 int weightOfEdge = neighbor.Value; // вага
                 Console.Write($"({adjacentVertex}, {weightOfEdge}) ");
                 kruskal.AddEdge(vertex, adjacentVertex, weightOfEdge);
+                graph.AddEdge(vertex, adjacentVertex, weightOfEdge);
             }
             Console.WriteLine();
-            
+
         }
-        List<Edge> minimalSpanningTree = kruskal.FindMinimalSpanningTree();
+        
+        List<Edge> minimalSpanningTree = kruskal.FindMinimalSpanningTree();;
 
         Console.WriteLine("Minimal Spanning Tree:");
         foreach (var edge in minimalSpanningTree)
         {
             Console.WriteLine($"{edge.Source} -- {edge.Destination} : {edge.Weight}");
         }
-        
-        // Перевірка, що функції працюють. Потім видалимо :)
-        //
-        //PrintGraph(randomGraph);
-        //Console.WriteLine();
-        //var graph1 = GraphFunctions.ToListForm(randomGraph);
-        //var graph2 = GraphFunctions.ToMatrixForm(graph1);
-        //PrintGraph(graph2);
+
+        var perfectMatching = ChristofidesAlgorithm.GetPerfectMatching(minimalSpanningTree, graph);
+        foreach (var i in perfectMatching.Keys)
+        {
+            Console.WriteLine($"{i}: {perfectMatching[i]}");
+        }
     }
 
     static void PrintGraph(int[,] graph)
-    // Просто вивід матриці, щоб читати можна було
+        // Просто вивід матриці, щоб читати можна було
     {
         for (var a = 0; a < graph.GetLength(0); a++)
         {
