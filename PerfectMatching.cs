@@ -6,26 +6,38 @@ public class PerfectMatching
         (Dictionary<int, (int, int)> pairs, Dictionary<int, Dictionary<int, int>> graph)
     {
         var betterPairs = pairs;
+        var taken = new HashSet<int>();
         foreach (var i in pairs.Keys)
         {
             foreach (var q in pairs.Keys)
             {
-                if (i == q || pairs[i].Item1 == q || pairs[q].Item1 == i)
+                if (i == q || pairs[i].Item1 == q || pairs[q].Item1 == i || taken.Contains(i) || taken.Contains(q))
                 {
                     continue;
                 }
+
+                var x = i;
+                var y = betterPairs[i].Item1;
+                var a = q;
+                var b = betterPairs[q].Item1;
                 
-                if (HasEdge(graph[i],pairs[i].Item1) + HasEdge(graph[q],pairs[q].Item1) < 
-                    HasEdge(graph[pairs[i].Item1],q) + HasEdge(graph[pairs[q].Item1],i))
+                if (HasEdge(graph[x],y) + HasEdge(graph[a],b) > HasEdge(graph[y],a) + HasEdge(graph[b],x))
                 {
-                    betterPairs[i] = (pairs[q].Item1, HasEdge(graph[i],pairs[q].Item1));
-                    betterPairs[q] = (pairs[i].Item1, HasEdge(graph[q],pairs[i].Item1));
+                    betterPairs[x] = (b, HasEdge(graph[x],b));
+                    betterPairs[b] = (x, HasEdge(graph[x],b));
+                    betterPairs[a] = (y, HasEdge(graph[q],y));
+                    betterPairs[y] = (a, HasEdge(graph[q],y));
                 }
-                else
+                if (HasEdge(graph[x],y) + HasEdge(graph[a],b) > HasEdge(graph[y],b) + HasEdge(graph[a],x))
                 {
-                    betterPairs[i] = (pairs[i].Item1, HasEdge(graph[i],pairs[i].Item1));
-                    betterPairs[q] = (pairs[q].Item1, HasEdge(graph[q],pairs[q].Item1));
+                    betterPairs[x] = (a, HasEdge(graph[x],a));
+                    betterPairs[a] = (x, HasEdge(graph[x],a));
+                    betterPairs[b] = (y, HasEdge(graph[y],b));
+                    betterPairs[y] = (b, HasEdge(graph[b],y));
                 }
+                
+                //taken.Add(betterPairs[i].Item1);
+                //taken.Add(i);
 
                 int HasEdge(Dictionary<int, int> dictionary, int index)
                 {

@@ -8,10 +8,10 @@ public class ChristofidesAlgorithm
         var oddVertices = PerfectMatching.GetOddVertices(tree);
         var subgraph = PerfectMatching.GetSubgraph(oddVertices, graph);
         var anyMatching = PerfectMatching.GetAnyPerfectMatching(subgraph);
-        //var listGraph = GraphFunctions.ToListForm(graph.Edges());
-        //var perfectMatching = PerfectMatching.GetBetterMatching(anyMatching, listGraph);
+        var listGraph = GraphFunctions.ToListForm(graph.Edges());
+        var perfectMatching = PerfectMatching.GetBetterMatching(anyMatching, listGraph);
 
-        return anyMatching;
+        return perfectMatching;
     }
     public static List<Edge> FindMinimalSpanningTree(Graph graph)
     {
