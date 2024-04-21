@@ -4,7 +4,7 @@ internal class Program
 {
     public static void Main()
     {
-        var randomGraph = GraphFunctions.GraphGenerator(7, 90);
+        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
         var adjacencyList = GraphFunctions.ToListForm(randomGraph);
         var graph = new Graph(5);
         

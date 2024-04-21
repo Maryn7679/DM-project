@@ -6,12 +6,19 @@ public class PerfectMatching
         (Dictionary<int, (int, int)> pairs, Dictionary<int, Dictionary<int, int>> graph)
     {
         var betterPairs = pairs;
-        var taken = new HashSet<int>();
+        var taken = new HashSet<HashSet<int>>();
         foreach (var i in pairs.Keys)
         {
             foreach (var q in pairs.Keys)
             {
-                if (i == q || pairs[i].Item1 == q || pairs[q].Item1 == i || taken.Contains(i) || taken.Contains(q))
+                var currentPairs = new HashSet<int>
+                {
+                    i,
+                    pairs[i].Item1,
+                    q,
+                    pairs[q].Item1
+                };
+                if (i == q || pairs[i].Item1 == q || pairs[q].Item1 == i || taken.Contains(currentPairs))
                 {
                     continue;
                 }
@@ -79,11 +86,7 @@ public class PerfectMatching
                     matching[i] = (q, graph[i][q]);
                     matching[q] = (i, graph[i][q]);
                 }
-                else
-                {
-                    matching[i] = (q, 1000000);
-                    matching[q] = (i, 1000000);
-                }
+                
                 taken.Add(q);
                 taken.Add(i);
             }
