@@ -4,7 +4,7 @@ internal class Program
 {
     public static void Main()
     {
-        var randomGraph = GraphFunctions.GraphGenerator(5, 90);
+        var randomGraph = GraphFunctions.GraphGenerator(5, 100);
         var adjacencyList = GraphFunctions.ToListForm(randomGraph);
         var graph = new Graph(5);
         
@@ -31,7 +31,13 @@ internal class Program
         {
             Console.WriteLine($"{edge.Source} -- {edge.Destination} : {edge.Weight}");
         }
-        
+
+        var perfectMatching = ChristofidesAlgorithm.GetPerfectMatching(minimalSpanningTree, graph);
+        foreach (var i in perfectMatching.Keys)
+        {
+            Console.WriteLine($"{i}: {perfectMatching[i]}");
+        }
+
         // Перевірка, що функції працюють. Потім видалимо :)
         //
         //PrintGraph(randomGraph);

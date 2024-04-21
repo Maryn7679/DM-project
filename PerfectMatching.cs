@@ -6,19 +6,35 @@ public class PerfectMatching
         (Dictionary<int, (int, int)> pairs, Dictionary<int, Dictionary<int, int>> graph)
     {
         var betterPairs = pairs;
-        for (var i = 0; i < pairs.Count * 2; i += 2)
+        foreach (var i in pairs.Keys)
         {
-            for (var q = i; q < pairs.Count * 2; q += 2)
+            foreach (var q in pairs.Keys)
             {
-                if (graph[i][i + 1] + graph[q][q + 1] < graph[i + 1][q] + graph[q + 1][i])
+                if (i == q || pairs[i].Item1 == q || pairs[q].Item1 == i)
                 {
-                    betterPairs[i] = (q + 1, graph[i][q + 1]);
-                    betterPairs[q] = (i + 1, graph[q][i + 1]);
+                    continue;
+                }
+                
+                if (HasEdge(graph[i],pairs[i].Item1) + HasEdge(graph[q],pairs[q].Item1) < 
+                    HasEdge(graph[pairs[i].Item1],q) + HasEdge(graph[pairs[q].Item1],i))
+                {
+                    betterPairs[i] = (pairs[q].Item1, HasEdge(graph[i],pairs[q].Item1));
+                    betterPairs[q] = (pairs[i].Item1, HasEdge(graph[q],pairs[i].Item1));
                 }
                 else
                 {
-                    betterPairs[i] = (i + 1, graph[i][i + 1]);
-                    betterPairs[q] = (q + 1, graph[q][q + 1]);
+                    betterPairs[i] = (pairs[i].Item1, HasEdge(graph[i],pairs[i].Item1));
+                    betterPairs[q] = (pairs[q].Item1, HasEdge(graph[q],pairs[q].Item1));
+                }
+
+                int HasEdge(Dictionary<int, int> dictionary, int index)
+                {
+                    if (dictionary.ContainsKey(index))
+                    {
+                        return dictionary[index];
+                    }
+
+                    return 1000000;
                 }
             }
         }
@@ -29,19 +45,38 @@ public class PerfectMatching
     public static Dictionary<int, (int, int)> GetAnyPerfectMatching(Dictionary<int, Dictionary<int, int>> graph)
     {
         var matching = new Dictionary<int, (int, int)>();
+        var taken = new HashSet<int>();
         
-        for (var i = 0; i < graph.Count; i += 2)
+        foreach (var i in graph.Keys)
         {
-            int distance;
-            if (!graph[i].ContainsKey(i + 1))
+            
+            foreach (var q in graph.Keys)
             {
-                distance = 100000;
+                if (taken.Contains(i) || taken.Contains(q))
+                {
+                    continue;
+                }
+                
+                if (i == q)
+                {
+                    continue;
+                }
+                
+                if (graph[i].ContainsKey(q))
+                {
+                    matching[i] = (q, graph[i][q]);
+                    matching[q] = (i, graph[i][q]);
+                }
+                else
+                {
+                    matching[i] = (q, 1000000);
+                    matching[q] = (i, 1000000);
+                }
+                taken.Add(q);
+                taken.Add(i);
             }
-            else
-            {
-                distance = graph[i][i + 1];
-            }
-            matching[i] = (i + 1, distance);
+            
+            
         }
 
         return matching;
@@ -49,30 +84,70 @@ public class PerfectMatching
 
     public static Dictionary<int, Dictionary<int, int>> GetSubgraph(List<int> vertices, Graph graph)
     {
+        var listGraph = GraphFunctions.ToListForm(graph.Edges());
         var listSubgraph = new Dictionary<int, Dictionary<int, int>>();
-        
-        foreach (var edge in graph.Edges())
+
+        foreach (var vertice1 in vertices)
         {
-            if (vertices.Contains(edge.Destination) && vertices.Contains(edge.Source))
+            foreach (var vertice2 in vertices)
+            {
+                if (vertice1 == vertice2)
+                {
+                    continue;
+                }
+
+                if (!listSubgraph.ContainsKey(vertice1))
+                {
+                    listSubgraph[vertice1] = new Dictionary<int, int>();
+                }
+                
+                
+                if (!listGraph[vertice1].ContainsKey(vertice2))
+                {
+                    listSubgraph[vertice1][vertice2] = 1000000;
+                }
+                else
+                {
+                    listSubgraph[vertice1][vertice2] = listGraph[vertice1][vertice2];
+                }
+                
+                
+            }
+        }
+        
+        /*foreach (var edge in graph.Edges())
+        {
+            if (vertices.Contains(edge.Destination))
+            {
+                if (!listSubgraph.ContainsKey(edge.Destination))
+                {
+                    listSubgraph[edge.Destination] = new Dictionary<int, int>();
+                }
+                listSubgraph[edge.Destination][edge.Source] = edge.Weight;
+            }
+            if (vertices.Contains(edge.Source))
             {
                 if (!listSubgraph.ContainsKey(edge.Source))
                 {
                     listSubgraph[edge.Source] = new Dictionary<int, int>();
                 }
-                
                 listSubgraph[edge.Source][edge.Destination] = edge.Weight;
             }
-        }
+        }*/
 
+        foreach (var key in listSubgraph.Keys)
+        {
+            Console.WriteLine($"{key}");
+        }
         return listSubgraph;
     }
     
-    public static List<int> GetOddVertices(Graph tree)
+    public static List<int> GetOddVertices(List<Edge> tree)
     {
-        var listTree = GraphFunctions.ToListForm(tree.Edges());
+        var listTree = GraphFunctions.ToListForm(tree);
         var oddVerticesList = new List<int>();
 
-        for (var vertice = 0; vertice < tree.Vertices(); vertice++)
+        for (var vertice = 0; vertice < listTree.Count; vertice++)
         {
             if (listTree[vertice].Count % 2 == 1)
             {

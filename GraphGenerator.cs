@@ -130,8 +130,13 @@ public abstract class GraphFunctions
             {
                 listGraph[edge.Source] = new Dictionary<int, int>();
             }
+            if (!listGraph.ContainsKey(edge.Destination))
+            {
+                listGraph[edge.Destination] = new Dictionary<int, int>();
+            }
 
             listGraph[edge.Source][edge.Destination] = edge.Weight;
+            listGraph[edge.Destination][edge.Source] = edge.Weight;
         }
 
         return listGraph;
