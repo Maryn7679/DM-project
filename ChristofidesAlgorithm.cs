@@ -1,78 +1,19 @@
 ﻿//Kruskal
+namespace DM_project;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-public class Edge : IComparable<Edge>
+public class ChristofidesAlgorithm
 {
-    public int Source { get; }
-    public int Destination { get; }
-    public int Weight { get; }
-
-    public Edge(int source, int destination, int weight)
-    {
-        Source = source;
-        Destination = destination;
-        Weight = weight;
-    }
-
-    public int CompareTo(Edge other)
-    {
-        return Weight.CompareTo(other.Weight);
-    }
-}
-
-public class KruskalAlgorithm
-{
-    private int vertices;
-    private List<Edge> edges;
-
-    public KruskalAlgorithm(int vertices)
-    {
-        this.vertices = vertices;
-        edges = new List<Edge>();
-    }
-
-    public void AddEdge(int source, int destination, int weight)
-    {
-        edges.Add(new Edge(source, destination, weight));
-    }
-
-    private int Find(int[] parent, int vertex)
-    {
-        if (parent[vertex] != vertex)
-            parent[vertex] = Find(parent, parent[vertex]);
-        return parent[vertex];
-    }
-
-    private void Union(int[] parent, int[] rank, int x, int y)
-    {
-        int xRoot = Find(parent, x);
-        int yRoot = Find(parent, y);
-
-        if (rank[xRoot] < rank[yRoot])
-            parent[xRoot] = yRoot;
-        else if (rank[yRoot] < rank[xRoot])
-            parent[yRoot] = xRoot;
-        else
-        {
-            parent[xRoot] = yRoot;
-            rank[yRoot]++;
-        }
-    }
-
-    public List<Edge> FindMinimalSpanningTree()
+    public static List<Edge> FindMinimalSpanningTree(Graph graph)
     {
         List<Edge> minimalSpanningTree = new List<Edge>();
 
         // Сортую ребра за вагою тут
-        edges.Sort();
+        graph.Edges().Sort();
 
-        int[] parent = new int[vertices];
-        int[] rank = new int[vertices];
+        int[] parent = new int[graph.Vertices()];
+        int[] rank = new int[graph.Vertices()];
 
-        for (int i = 0; i < vertices; i++)
+        for (int i = 0; i < graph.Vertices(); i++)
         {
             parent[i] = i;
             rank[i] = 0;
@@ -81,17 +22,17 @@ public class KruskalAlgorithm
         int edgeIndex = 0;
         int treeEdgeCount = 0;
 
-        while (treeEdgeCount < vertices - 1)
+        while (treeEdgeCount < graph.Vertices() - 1)
         {
-            Edge nextEdge = edges[edgeIndex++];
+            Edge nextEdge = graph.Edges()[edgeIndex++];
 
-            int sourceRoot = Find(parent, nextEdge.Source);
-            int destinationRoot = Find(parent, nextEdge.Destination);
+            int sourceRoot = graph.Find(parent, nextEdge.Source);
+            int destinationRoot = graph.Find(parent, nextEdge.Destination);
 
             if (sourceRoot != destinationRoot)
             {
                 minimalSpanningTree.Add(nextEdge);
-                Union(parent, rank, sourceRoot, destinationRoot);
+                graph.Union(parent, rank, sourceRoot, destinationRoot);
                 treeEdgeCount++;
             }
         }
