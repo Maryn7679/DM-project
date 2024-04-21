@@ -38,6 +38,12 @@ internal class Program
             Console.WriteLine($"{i}: {perfectMatching[i]}");
         }
 
+        var listTree = GraphFunctions.ToListForm(minimalSpanningTree);
+        var listMatching = GraphFunctions.ToListForm(perfectMatching);
+        var graphSum = ChristofidesAlgorithm.AddGraphs(listTree, listMatching);
+        
+        PrintListGraph(graphSum);
+        
         // Перевірка, що функції працюють. Потім видалимо :)
         //
         //PrintGraph(randomGraph);
@@ -58,6 +64,17 @@ internal class Program
                 b += graph[a, c].ToString() + ", ";
             }
             Console.WriteLine(b);
+        }
+    }
+
+    static void PrintListGraph(Dictionary<int, Dictionary<int, int>> graph)
+    {
+        foreach (var key in graph.Keys)
+        {
+            foreach (var key2 in graph[key].Keys)
+            {
+                Console.WriteLine($"{key}: {key2} - {graph[key][key2]}");
+            }
         }
     }
 }

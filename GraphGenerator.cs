@@ -141,4 +141,17 @@ public abstract class GraphFunctions
 
         return listGraph;
     }
+
+    public static Dictionary<int, Dictionary<int, int>> ToListForm(Dictionary<int, (int, int)> graph)
+    {
+        var listGraph = new Dictionary<int, Dictionary<int, int>>();
+            
+        foreach (var vertex in graph.Keys)
+        {
+            listGraph[vertex] = new Dictionary<int, int>();
+            listGraph[vertex][graph[vertex].Item1] = graph[vertex].Item2;
+        }
+
+        return listGraph;
+    }
 }

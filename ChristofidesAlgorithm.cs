@@ -49,4 +49,44 @@ public class ChristofidesAlgorithm
 
         return minimalSpanningTree;
     }
+    
+    public static Dictionary<int, Dictionary<int, int>> AddGraphs(Dictionary<int, Dictionary<int, int>> graph1,
+        Dictionary<int, Dictionary<int, int>> graph2)
+    {
+        Dictionary<int, Dictionary<int, int>> newGraph = new Dictionary<int, Dictionary<int, int>>();
+
+        foreach (var vertex1 in graph1)
+        {
+            int v1 = vertex1.Key;
+            if (!newGraph.ContainsKey(v1))
+                newGraph[v1] = new Dictionary<int, int>();
+
+            foreach (var adj1 in vertex1.Value)
+            {
+                int adjVertex1 = adj1.Key;
+                int weight1 = adj1.Value;
+                newGraph[v1][adjVertex1] = weight1;
+            }
+
+            if (graph2.ContainsKey(v1))
+            {
+                foreach (var adj2 in graph2[v1])
+                {
+                    int adjVertex2 = adj2.Key;
+                    int weight2 = adj2.Value;
+
+                    if (newGraph[v1].ContainsKey(adjVertex2))
+                    {
+                        newGraph[v1][adjVertex2] += weight2;
+                    }
+                    else
+                    {
+                        newGraph[v1][adjVertex2] = weight2;
+                    }
+                }
+            }
+        }
+
+        return newGraph;
+    }
 }
