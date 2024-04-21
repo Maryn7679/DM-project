@@ -1,0 +1,15 @@
+D:\Assignments\DM-project\bin\Debug\net8.0\DM-project.exe
+D:\Assignments\DM-project\bin\Debug\net8.0\DM-project.deps.json
+D:\Assignments\DM-project\bin\Debug\net8.0\DM-project.runtimeconfig.json
+D:\Assignments\DM-project\bin\Debug\net8.0\DM-project.dll
+D:\Assignments\DM-project\bin\Debug\net8.0\DM-project.pdb
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.GeneratedMSBuildEditorConfig.editorconfig
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.AssemblyInfoInputs.cache
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.AssemblyInfo.cs
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.csproj.CoreCompileInputs.cache
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.sourcelink.json
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.dll
+D:\Assignments\DM-project\obj\Debug\net8.0\refint\DM-project.dll
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.pdb
+D:\Assignments\DM-project\obj\Debug\net8.0\DM-project.genruntimeconfig.cache
+D:\Assignments\DM-project\obj\Debug\net8.0\ref\DM-project.dll

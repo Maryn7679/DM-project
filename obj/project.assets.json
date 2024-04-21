@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\maryn\\.nuget\\packages\\": {}
+    "C:\\Users\\marti\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Marynne\\Дз =(\\Class =(\\Class-no\\DM-project\\DM-project.csproj",
+      "projectUniqueName": "D:\\Assignments\\DM-project\\DM-project.csproj",
       "projectName": "DM-project",
-      "projectPath": "C:\\Marynne\\Дз =(\\Class =(\\Class-no\\DM-project\\DM-project.csproj",
-      "packagesPath": "C:\\Users\\maryn\\.nuget\\packages\\",
-      "outputPath": "C:\\Marynne\\Дз =(\\Class =(\\Class-no\\DM-project\\obj\\",
+      "projectPath": "D:\\Assignments\\DM-project\\DM-project.csproj",
+      "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
+      "outputPath": "D:\\Assignments\\DM-project\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\maryn\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -59,7 +59,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

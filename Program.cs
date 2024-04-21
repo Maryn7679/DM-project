@@ -4,13 +4,40 @@ internal static class Program
 {
     public static void Main()
     {
-        // Перевірка, що функції працюють. Потім видалимо :)
         var randomGraph = GraphFunctions.GraphGenerator(5, 90);
-        PrintGraph(randomGraph);
-        Console.WriteLine();
-        var graph1 = GraphFunctions.ToListForm(randomGraph);
-        var graph2 = GraphFunctions.ToMatrixForm(graph1);
-        PrintGraph(graph2);
+        var adjacencyList = GraphFunctions.ToListForm(randomGraph);
+        
+        KruskalAlgorithm kruskal = new KruskalAlgorithm(5);
+        
+        foreach (var kvp in adjacencyList)
+        {
+            int vertex = kvp.Key; // ершина
+            Console.Write($"Vertex {vertex}: ");
+            foreach (var neighbor in kvp.Value)
+            {
+                int adjacentVertex = neighbor.Key; // сусідня
+                int weightOfEdge = neighbor.Value; // вага
+                Console.Write($"({adjacentVertex}, {weightOfEdge}) ");
+                kruskal.AddEdge(vertex, adjacentVertex, weightOfEdge);
+            }
+            Console.WriteLine();
+            
+        }
+        List<Edge> minimalSpanningTree = kruskal.FindMinimalSpanningTree();
+
+        Console.WriteLine("Minimal Spanning Tree:");
+        foreach (var edge in minimalSpanningTree)
+        {
+            Console.WriteLine($"{edge.Source} -- {edge.Destination} : {edge.Weight}");
+        }
+        
+        // Перевірка, що функції працюють. Потім видалимо :)
+        //
+        //PrintGraph(randomGraph);
+        //Console.WriteLine();
+        //var graph1 = GraphFunctions.ToListForm(randomGraph);
+        //var graph2 = GraphFunctions.ToMatrixForm(graph1);
+        //PrintGraph(graph2);
     }
 
     static void PrintGraph(int[,] graph)
